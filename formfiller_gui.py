@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
 
-class Application(tk.Frame):
+class GUI(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
@@ -28,7 +28,7 @@ class Application(tk.Frame):
 
     def select_form_format_file(self):
         # file selector dialog
-        print("form")
+        print("select_form_format_file()")
         filename = self.choose_file("Word Document (format files)", "*.docx")
         self.form_format_location.insert(0,filename)
 
@@ -43,7 +43,7 @@ class Application(tk.Frame):
         
     def select_input_format_file(self):
         # file selector dialog
-        print("input")
+        print("select_input_format_file()")
 
     def widgets_input_files(self):
         # List of input files which the user can populate
@@ -59,7 +59,7 @@ class Application(tk.Frame):
         pass
 
     def select_input_files(self):
-        print("input files")
+        print("select_input_files()")
 
     def widgets_generate(self):
         # These widgets create files from the form format and input files
@@ -69,7 +69,7 @@ class Application(tk.Frame):
         self.generate.grid(row=3, column=2)
     
     def generate_forms(self):
-        print("generate")
+        print("generate_forms()")
 
     def choose_file(self, file_type: str, file_ext: str):
         # TODO - make parameters useful
@@ -77,8 +77,3 @@ class Application(tk.Frame):
                                           title = "Select a File", 
                                           filetypes = (("Text files", "*.txt*")))
 
-
-root = tk.Tk()
-root.geometry("800x600")
-app = Application(master=root)
-app.mainloop()
