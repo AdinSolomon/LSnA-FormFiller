@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import filedialog
+from tkinter import filedialog 
 
 class GUI(tk.Frame):
     def __init__(self, master=None):
