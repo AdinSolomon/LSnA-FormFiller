@@ -1,2 +1,4 @@
 # LSnA-FormFiller
-temp
+
+To build:
+    pyinstaller --clean -F formfiller.py
