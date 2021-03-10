@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>TESTYBOIIIIII</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <h2>Horizontal form: control states</h2>
+    <form class="form-horizontal">
+        <div class="form-group has-success has-feedback">
+            <label class="col-sm-2 control-label" for="inputSuccess">Success Example</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputSuccess">
+                <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+        </div>
+        <div class="form-group has-warning has-feedback">
+            <label class="col-sm-2 control-label" for="inputWarning">Warning Example</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputWarning">
+                <span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
+            </div>
+        </div>
+        <div class="form-group has-error has-feedback">
+            <label class="col-sm-2 control-label" for="inputError">Failure Example</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputError">
+                <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+            </div>
+        </div>
+        <div id="TestInputGroup" class="form-group">
+            <label id="TestLabel" class="col-sm-2 control-label" for="testInput"> Test Input  </label>
+            <div id="TestInputParent" class="col-sm-10">
+                <input id="TestInput" type="text" class="form-control" id="testInput">
+                <span id="TestInputIcon"></span>
+            </div>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary" onclick="save_json();"> Save JSON </button>
+            <button type="button" class="btn btn-primary" onclick="change_to_success();"> Success </button>
+            <button type="button" class="btn btn-primary" onclick="change_to_warning();"> Warning </button>
+            <button type="button" class="btn btn-primary" onclick="change_to_failure();"> Failure </button>
+            <button type="button" class="btn btn-primary" onclick="clear_status();"> Clear Status </button>
+        </div>
+    </form>
+</div>
+<script>
+    function clear_status() {
+        // Reset group
+        let group = document.getElementById("TestInputGroup");
+        group.classList.remove("has-feedback");
+        group.classList.remove("has-success");
+        group.classList.remove("has-warning");
+        group.classList.remove("has-error");
+        // Reset icon
+        let icon = document.getElementById("TestInputIcon");
+        icon.classList.remove("glyphicon");
+        icon.classList.remove("form-control-feedback");
+        icon.classList.remove("glyphicon-ok");
+        icon.classList.remove("glyphicon-warning-sign");
+        icon.classList.remove("glyphicon-remove");
+    }
+    function generic_status() {
+        // Generic group class
+        document.getElementById("TestInputGroup").classList.add("has-feedback");
+        // Generic icon classes
+        let icon = document.getElementById("TestInputIcon");
+        icon.classList.add("glyphicon");
+        icon.classList.add("form-control-feedback");
+    }
+    function change_to_success() {
+        clear_status();
+        generic_status();
+        console.log("success")
+        // Add highlighting
+        document.getElementById("TestInputGroup").classList.add("has-success");
+        // Add icon
+        document.getElementById("TestInputIcon").classList.add("glyphicon-ok");
+    }
+    function change_to_warning() {
+        clear_status();
+        generic_status();
+        console.log("warning");
+        // Add highlighting
+        document.getElementById("TestInputGroup").classList.add("has-warning");
+        // Add icon
+        document.getElementById("TestInputIcon").classList.add("glyphicon-warning-sign");
+    }
+    function change_to_failure() {
+        clear_status();
+        generic_status();
+        console.log("failure");
+        // Add highlighting
+        document.getElementById("TestInputGroup").classList.add("has-error");
+        // Add icon
+        document.getElementById("TestInputIcon").classList.add("glyphicon-error");
+    }
+    function save_json() {
+        console.log("saving to json");
+        // I don't really understand how most of this works, but it works!
+        let filename = "ExampleJSON.json";
+        let data = { input : document.getElementById("TestInput").value };
+        var data_blob = new Blob(
+            [JSON.stringify(data)],
+            {type: 'text/json;charset=utf-8'}
+        );
+        var a      = document.createElement('a');
+        a.href     = URL.createObjectURL(data_blob);
+        a.download = filename;
+        // simulate a mouse click event
+        var event = new MouseEvent('click', {
+            view: window,
+            bubbles: true,
+            cancelable: true
+        });
+        a.dispatchEvent(event);
+    }
+    </script>
+</body>
+</html>
