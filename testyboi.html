@@ -34,72 +34,52 @@
                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
             </div>
         </div>
-        <div id="TestInputGroup" class="form-group">
+        <div id="TestInputGroup" class="form-group has-feedback">
             <label id="TestLabel" class="col-sm-2 control-label" for="testInput"> Test Input  </label>
             <div id="TestInputParent" class="col-sm-10">
                 <input id="TestInput" type="text" class="form-control" id="testInput">
-                <span id="TestInputIcon"></span>
+                <span id="TestInputIcon" class="form-control-feedback glyphicon"></span>
             </div>
         </div>
         <div class="btn-group">
             <button type="button" class="btn btn-primary" onclick="save_json();"> Save JSON </button>
-            <button type="button" class="btn btn-primary" onclick="change_to_success();"> Success </button>
-            <button type="button" class="btn btn-primary" onclick="change_to_warning();"> Warning </button>
-            <button type="button" class="btn btn-primary" onclick="change_to_failure();"> Failure </button>
-            <button type="button" class="btn btn-primary" onclick="clear_status();"> Clear Status </button>
+            <button type="button" class="btn btn-primary" onclick="change_input_status(document.getElementById('TestInput'), 'success');"> Success </button>
+            <button type="button" class="btn btn-primary" onclick="change_input_status(document.getElementById('TestInput'), 'warning');"> Warning </button>
+            <button type="button" class="btn btn-primary" onclick="change_input_status(document.getElementById('TestInput'), 'failure');"> Failure </button>
+            <button type="button" class="btn btn-primary" onclick="console.log('clearing status'); clear_input_status(document.getElementById('TestInput'));"> Clear Status </button>
         </div>
     </form>
 </div>
 <script>
-    function clear_status() {
-        // Reset group
-        let group = document.getElementById("TestInputGroup");
-        group.classList.remove("has-feedback");
-        group.classList.remove("has-success");
-        group.classList.remove("has-warning");
-        group.classList.remove("has-error");
-        // Reset icon
-        let icon = document.getElementById("TestInputIcon");
-        icon.classList.remove("glyphicon");
-        icon.classList.remove("form-control-feedback");
-        icon.classList.remove("glyphicon-ok");
-        icon.classList.remove("glyphicon-warning-sign");
-        icon.classList.remove("glyphicon-remove");
+    const status_colors = {
+        success : "has-success",
+        warning : "has-warning",
+        failure : "has-error"
+    };
+    const status_symbols = {
+        success : "glyphicon-ok",
+        warning : "glyphicon-warning-sign",
+        failure : "glyphicon-remove"
+    };
+    function dict_values(dictionary) {
+        return Object.keys(dictionary).map(function(key){ return dictionary[key]; });
     }
-    function generic_status() {
-        // Generic group class
-        document.getElementById("TestInputGroup").classList.add("has-feedback");
-        // Generic icon classes
-        let icon = document.getElementById("TestInputIcon");
-        icon.classList.add("glyphicon");
-        icon.classList.add("form-control-feedback");
+    function clear_input_status(input_element) {
+        // Remove color
+        input_element.parentElement.parentElement.classList.remove(...dict_values(status_colors));
+        // Remove symbol
+        input_element.nextElementSibling.classList.remove(...dict_values(status_symbols));
     }
-    function change_to_success() {
-        clear_status();
-        generic_status();
-        console.log("success")
-        // Add highlighting
-        document.getElementById("TestInputGroup").classList.add("has-success");
+    function change_input_status(input_element, new_status) {
+        if (status_colors[new_status] == undefined) {
+            return;
+        }
+        console.log("changing to " + new_status);
+        clear_input_status(input_element);
+        // Add color
+        input_element.parentElement.parentElement.classList.add(status_colors[new_status]);
         // Add icon
-        document.getElementById("TestInputIcon").classList.add("glyphicon-ok");
-    }
-    function change_to_warning() {
-        clear_status();
-        generic_status();
-        console.log("warning");
-        // Add highlighting
-        document.getElementById("TestInputGroup").classList.add("has-warning");
-        // Add icon
-        document.getElementById("TestInputIcon").classList.add("glyphicon-warning-sign");
-    }
-    function change_to_failure() {
-        clear_status();
-        generic_status();
-        console.log("failure");
-        // Add highlighting
-        document.getElementById("TestInputGroup").classList.add("has-error");
-        // Add icon
-        document.getElementById("TestInputIcon").classList.add("glyphicon-error");
+        input_element.nextElementSibling.classList.add(status_symbols[new_status]);
     }
     function save_json() {
         console.log("saving to json");
